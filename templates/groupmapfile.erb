@@ -1,0 +1,6 @@
+<% #vomappingdata contains a hash 'role' => { group, prefix, services (an array), static (true/false), voname } -%>
+<% @vomappingdata.keys.sort.each do |role| -%>
+<% if @vomappingdata[role]['voname']==@voname && @vomappingdata[role]['services'].rindex(@enable_mappings_for_service)!=nil -%>
+"<%= role -%>" <%= @vomappingdata[role]['group'] %>
+<% end -%>
+<% end -%>

@@ -1,0 +1,16 @@
+#
+# This is the file which manipulates the grid environment for tcsh shell.
+#
+# - It saves the exported environment variables to a file,
+# - perform the manipulations in bash, using the bash functions
+# - then it sources the resulted set of environment variables.
+#
+# To see what is going on exactly, how te environment variables are affected
+# have a look to the grid-env.sh file !
+#
+#
+
+set mycshtmpfile=`mktemp /tmp/gridvoenv.XXXXXX`
+bash -c "export ISCSHELL=yes ; source /usr/libexec/grid-vo-env.sh" >> $mycshtmpfile
+source $mycshtmpfile
+rm -f $mycshtmpfile

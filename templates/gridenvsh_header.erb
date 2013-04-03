@@ -1,0 +1,3 @@
+if [ "X${GRID_VO_ENV_SET+X}" = "X" ]; then
+    . /usr/libexec/grid-env-funcs.sh
+    if [ "x${GLITE_UI_ARCH:-$1}" = "x32BIT" ]; then arch_dir=lib; else arch_dir=lib64; fi
