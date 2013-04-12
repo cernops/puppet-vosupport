@@ -53,11 +53,21 @@ Puppet::Type.newtype(:poolhome) do
     end
   end
 
+  newparam(:defaultgid) do 
+    desc "default gid to be used if no gid set in the above array"
+    defaultto "0"
+    validate do |value|
+      unless  value.to_s =~ /^[\d]+$/
+        raise ArgumentError , "default gid must be an integer if specified: \"%s\"" % value
+      end
+    end
+  end
+
   newparam(:uidmap) do 
-    desc "..."
+    desc "map of pool account names to uid/gid pairs"
     defaultto [ "uid" => ["cms001" => "123"],
                 "gid" => ["cms001" => "234"], 
               ] 
   end
-  
 end
+

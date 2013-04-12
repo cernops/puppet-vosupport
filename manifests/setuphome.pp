@@ -5,19 +5,33 @@ define vosupport::setuphome (
   $digits=3,
   $homeroot='/pool/grid',
   $voname='',
-  $uids=undef,
 )
 {
-  #notice ($uids)
   if ($prefix){
-    poolhome {$prefix:
-      ensure => present,
-      number => $number,
-      start  => $start,
-      digits => $digits,
-      homeroot => $homeroot,
-      uidmap => $uids,
-      require => File[$homeroot],
+    if ($vosupport::uidmap::vo2gidmap){
+      $gid = $vosupport::uidmap::vo2gidmap[$voname]
+      poolhome {$prefix:
+        ensure => present,
+        number => $number,
+        start  => $start,
+        digits => $digits,
+        homeroot => $homeroot,
+        uidmap => uidfilterbygid($vosupport::uidmap::uidmap,$gid),
+        # defaultgid => $gid,
+        require => File[$homeroot],
+      }
+    }
+    else
+    {
+      poolhome {$prefix:
+        ensure => present,
+        number => $number,
+        start  => $start,
+        digits => $digits,
+        homeroot => $homeroot,
+        uidmap => $vosupport::uidmap::uidmap,
+        require => File[$homeroot],
+      }
     }
   }
 }

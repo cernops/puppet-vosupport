@@ -4,14 +4,12 @@ Puppet::Type.type(:poolhome).provide(:poolhome) do
   def create
     expand(resource[:start],resource[:number],resource[:prefix],resource[:digits]).each { |accountname|
       homedir = resource[:homeroot] + '/' + accountname
-      #notice("Creating "+homedir)
       if (! File.directory?(homedir) ) 
         uid = getUID(accountname)
         gid = getGID(accountname)
         if (uid > 0 && gid > 0)
-          Dir.mkdir(homedir,0700)
+          Dir.mkdir(homedir,0750)
           File.chown(uid,gid,homedir)
-          #notice("created "+homedir+" with uid="+uid.to_s()+" and gid="+gid.to_s())
         else
           fail("Cannot create directory")
         end
@@ -22,7 +20,6 @@ Puppet::Type.type(:poolhome).provide(:poolhome) do
   def getUID(name)
     poolUidGids = resource[:uidmap]
     lookup = poolUidGids["uid"][name]
-    #notice(lookup)
     if (lookup != "") 
       uid = lookup.to_i()
     else 
@@ -34,11 +31,14 @@ Puppet::Type.type(:poolhome).provide(:poolhome) do
   def getGID(name)
     poolUidGids = resource[:uidmap]
     lookup = poolUidGids["gid"][name]
-    #notice(lookup)
     if (lookup != "")
       gid = lookup.to_i()
     else 
-      gid = 0
+      if (resource[:defaultgid]) 
+        gid = resource[:defaultgid]
+      else
+        gid = 0
+      end
     end
     return gid
   end
@@ -48,20 +48,19 @@ Puppet::Type.type(:poolhome).provide(:poolhome) do
   end
   
   def exists?
-    #notice("checking pool accounts")
     exists = true
     expand(resource[:start],resource[:number],resource[:prefix],resource[:digits]).each { |accountname|
       homedir = resource[:homeroot] + '/' + accountname
-      if (! File.directory?(homedir) )
-        #notice("Directory "+homedir+" is missing")
+      if (File.exists?(homedir) && File.directory?(homedir))
+        # ensure that the permissions are correct. This is needed for glExec to work
+        if (sprintf("%o", File.stat(homedir).mode) != "40750")
+          notice "Warning: \"" + homedir+ "\" has wrong permission settings. Correcting them to 0750\n"
+          File.chmod(0750,homedir)
+        end
+      else 
         exists = false
       end
     }
-    #if (exists)
-    #  notice("All home directories exist")
-    #else
-    #  notice("Some pool account home directories are missing. Will try to create them.")
-    #end
     return exists
   end
   

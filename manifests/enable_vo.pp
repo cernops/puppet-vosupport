@@ -6,9 +6,7 @@ define vosupport::enable_vo (
    $enable_environment = true,
    $enable_voms = true
 )
-{
-    notice "vosupport: enabling VO ${voname}"
-    
+{    
     if ($enable_voms) {
       #lookup table for VO names in voms module, when the name of the voms module is different from the VO name
       $voms_module_name= $voname? {
@@ -24,24 +22,20 @@ define vosupport::enable_vo (
          'vo.aleph.cern.ch' => 'aleph',
         default => $voname
       }
-      notice "vosupport: configuring VOMS for VO ${voname}"
       include "voms::${voms_module_name}"      
     }
     
     if ($enable_poolaccounts) {
-      notice "vosupport: enabling pool accounts  for VO ${voname}"
       include vosupport::vo_poolaccounts      
       Setuphome <| voname == $voname |>
     }
     
     if ($enable_environment) {
-      notice "vosupport: completing environment for VO ${voname}"
       include vosupport::vo_environment
       Voenv  <| voname == $voname |>
     }
     
     if $enable_mappings_for_service != undef {
-      notice "vosupport: setup mappings for VO ${voname}"
       include vosupport::vo_mappings
       
       #create file fragments for the specified VO and service

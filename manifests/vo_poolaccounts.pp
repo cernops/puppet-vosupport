@@ -1,5 +1,5 @@
 #initialize VO poolaccount virtual resources
-class vosupport::vo_poolaccounts()
+class vosupport::vo_poolaccounts() inherits vosupport::uidmap
 {
   package {'rubygem-ruby-net-ldap':
     ensure => present,
@@ -31,7 +31,6 @@ class vosupport::vo_poolaccounts()
     target => "/pool/grid"
   }
 
-  $uidmap = getuids([])
   $poolaccounts = hiera_hash('vosupport::poolaccounts',undef)
-  create_resources('vosupport::virtual_setuphome',$poolaccounts,{uids=>$uids})
+  create_resources('vosupport::virtual_setuphome',$poolaccounts)
 }
