@@ -9,6 +9,21 @@ class vosupport(
 
   include concat::setup
 
+  file {"grid-env-funcs.sh":
+    path => '/usr/libexec/grid-env-funcs.sh',
+    source => 'puppet:///modules/vosupport/grid-env-funcs.sh',
+    owner => "root",
+    group => "root",
+    mode => 0644,
+  }
+  file {"clean-grid-env-funcs.sh":
+    path => '/usr/libexec/clean-grid-env-funcs.sh',
+    source => 'puppet:///modules/vosupport/grid-env-funcs.sh',
+    owner => "root",
+    group => "root",
+    mode => 0644,
+  }
+
   #
   # overall process: 
   #

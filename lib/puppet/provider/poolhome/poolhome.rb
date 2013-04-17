@@ -31,11 +31,11 @@ Puppet::Type.type(:poolhome).provide(:poolhome) do
   def getGID(name)
     poolUidGids = resource[:uidmap]
     lookup = poolUidGids["gid"][name]
-    if (lookup != "")
+    if (lookup && lookup.to_i > 0)
       gid = lookup.to_i()
     else 
-      if (resource[:defaultgid]) 
-        gid = resource[:defaultgid]
+      if (resource[:defaultgid] && resource[:defaultgid].to_i > 0 ) 
+        gid = resource[:defaultgid].to_i
       else
         gid = 0
       end

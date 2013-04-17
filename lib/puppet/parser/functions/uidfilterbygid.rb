@@ -20,7 +20,7 @@ EOS
       if  thisgid == gid.to_s
         filtered["uid"][key] = value
         # to be removed later once the additional defaultgid parameter works
-        filtered["gid"][key] = gid
+        # filtered["gid"][key] = gid
       end
     }
     return filtered

@@ -8,7 +8,7 @@ define vosupport::setuphome (
 )
 {
   if ($prefix){
-    if ($vosupport::uidmap::vo2gidmap){
+    if ($vosupport::uidmap::vo2gidmap[$voname]){
       $gid = $vosupport::uidmap::vo2gidmap[$voname]
       poolhome {$prefix:
         ensure => present,
@@ -17,7 +17,7 @@ define vosupport::setuphome (
         digits => $digits,
         homeroot => $homeroot,
         uidmap => uidfilterbygid($vosupport::uidmap::uidmap,$gid),
-        # defaultgid => $gid,
+        defaultgid => $gid,
         require => File[$homeroot],
       }
     }
