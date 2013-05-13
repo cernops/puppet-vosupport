@@ -11,6 +11,6 @@
 #
 
 set mycshtmpfile=`mktemp /tmp/gridvoenv.XXXXXX`
-bash -c "export ISCSHELL=yes ; source /usr/libexec/grid-vo-env.sh" >> $mycshtmpfile
+bash -c "export ISCSHELL=yes ; source /etc/profile.d/grid-vo-env.sh" >> $mycshtmpfile
 source $mycshtmpfile
 rm -f $mycshtmpfile

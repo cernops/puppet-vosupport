@@ -3,8 +3,10 @@ define vosupport::enable_vo (
    $voname=$name,
    $enable_poolaccounts = true,
    $enable_mappings_for_service = undef,
+   $enable_mkgridmap_for_service = undef,
    $enable_environment = true,
-   $enable_voms = true
+   $enable_voms = true,
+   $enable_gridmapdir = false
 )
 {    
     if ($enable_voms) {
@@ -58,6 +60,21 @@ define vosupport::enable_vo (
 	order   => "9",
 	content => template('vosupport/groupmapfile.erb')
       }    
+    }
+    
+    if $enable_mkgridmap_for_service != undef {
+        include vosupport::vo_lcgdm_mappings
+        
+        vosupport::enable_lcgdm_vo{$voname:
+            voname=>$voname,
+            unprivilegedmkgridmap=>false,
+            gridservice=>$enable_mkgridmap_for_service
+        }
+    }
+    
+    if $enable_gridmapdir {
+      include vosupport::vo_gridmapdir
+      Setupgridmapdir <| voname == $voname |>
     }
 }
 

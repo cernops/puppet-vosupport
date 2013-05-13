@@ -1,0 +1,16 @@
+<% #vomappingdata contains a hash 'role' => { group, prefix, services (an array), static (true/false), voname } -%>
+<% #poolaccounts contains a hash 'voname' => { digits, homeroot, number, start, voname } -%>
+<% #vomsservers contains a hash 'voname' => an array of vomsservers -%>
+<% if @unprivilegedmkgridmap ==false -%>
+<% @vomappingdata.keys.sort.each do |role| -%>
+<% if @vomappingdata[role]['voname']==@voname && @vomappingdata[role]['services'].rindex(@gridservice)!=nil -%>
+<% @vomsservers[@voname].sort.each do |vomsserver| -%>
+group <%= vomsserver -%><%= role -%> <%= @voname %>
+<% end -%>
+<% end -%>
+<% end -%>
+<% else -%>
+<% @vomsservers[@voname].sort.each do |vomsserver| -%>
+group <%= vomsserver -%>/<%= @voname %> <%= @voname %>
+<% end -%>
+<% end -%>

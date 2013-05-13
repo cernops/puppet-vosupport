@@ -32,5 +32,5 @@ class vosupport::vo_poolaccounts() inherits vosupport::uidmap
   }
 
   $poolaccounts = hiera_hash('vosupport::poolaccounts',undef)
-  create_resources('vosupport::virtual_setuphome',$poolaccounts)
+  create_resources('vosupport::virtual_setuphome',$poolaccounts, {homeroot => '/pool/grid'})
 }

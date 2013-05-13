@@ -1,6 +1,5 @@
 <% #vomappingdata contains a hash 'role' => { group, prefix, services (an array), static (true/false), voname } -%>
-<% @vomappingdata.keys.sort.each do |role| -%>
-<% if @vomappingdata[role]['voname']==@voname && @vomappingdata[role]['services'].rindex(@enable_mappings_for_service)!=nil -%>
+<% #Since first match is taken into account, we need to sort mapping entries by most specific first, i.e. we sort by group DESC then role DESC, and put wildcard entries last -%>
+<% @vomappingdata.keys.select{|role| @vomappingdata[role]['voname']==@voname && @vomappingdata[role]['services'].rindex(@enable_mappings_for_service)!=nil }.sort{ |x,y| (x.rindex('*').to_i <=> y.rindex('*').to_i).nonzero? || y.partition(/role=/i) <=> x.partition(/role=/i)  }.each do |role| -%>
 "<%= role -%>" <%= @vomappingdata[role]['group'] %>
-<% end -%>
 <% end -%>
