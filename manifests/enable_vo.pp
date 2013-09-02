@@ -1,12 +1,14 @@
 #enables vosupport features (accounts, mappings, environment)
 define vosupport::enable_vo (
-   $voname=$name,
-   $enable_poolaccounts = true,
-   $enable_mappings_for_service = undef,
-   $enable_mkgridmap_for_service = undef,
-   $enable_environment = true,
-   $enable_voms = true,
-   $enable_gridmapdir = false
+  $voname=$name,
+  $enable_poolaccounts = true,
+  $enable_mappings_for_service = undef,
+  $enable_mkgridmap_for_service = undef,
+  $enable_environment = true,
+  $enable_voms = true,
+  $enable_gridmapdir = false,
+  $enable_sudoers = false,
+  $enable_sandboxdir = false,
 )
 {    
     if ($enable_voms) {
@@ -75,6 +77,16 @@ define vosupport::enable_vo (
     if $enable_gridmapdir {
       include vosupport::vo_gridmapdir
       Setupgridmapdir <| voname == $voname |>
+    }
+    
+    if $enable_sudoers {
+      include vosupport::vo_sudoers
+      Setupsudoers <| voname == $voname |>
+    }
+    
+    if $enable_sandboxdir {
+      include vosupport::vo_sandboxdir
+      Setupsandbox  <| voname == $voname |>
     }
 }
 

@@ -1,0 +1,16 @@
+Runas_Alias GLEXEC_<%=prefix.upcase%> = \
+<%= list.join(", ")%>
+
+Cmnd_Alias GLEXEC_CMDS_<%=prefix.upcase%> = /bin/echo, /bin/mkdir, /bin/cp, /bin/cat, /usr/bin/groups, /usr/bin/whoami, /bin/dd, /bin/mv, /usr/bin/id, /bin/kill, /usr/libexec/lsf_submit.sh, /usr/libexec/lsf_status.sh, /usr/libexec/lsf_cancel.sh, /usr/libexec/lsf_hold.sh, /usr/libexec/lsf_resume.sh, /usr/bin/glite-cream-copyProxyToSandboxDir.sh, /usr/bin/glite-cream-createsandboxdir, /usr/bin/glite-ce-cream-purge-sandbox, /usr/bin/glite-ce-cream-purge-proxy,  /usr/bin/glite-ce-cream-create-wrapper, /bin/ls 
+
+
+# Defaults specification (for cream)
+
+
+Defaults>GLEXEC_<%=prefix.upcase%> !requiretty # Added for cream
+Defaults>GLEXEC_<%=prefix.upcase%> env_keep += "BLAHPD_LOCATION BLAHPD_CONFIG_LOCATION"
+
+
+# User privilege specification (for cream)
+root    ALL=(ALL) ALL  # Added for cream
+tomcat  ALL=(GLEXEC_<%=prefix.upcase%>) NOPASSWD: GLEXEC_CMDS_<%=prefix.upcase%>  # Added for cream
