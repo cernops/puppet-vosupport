@@ -24,7 +24,7 @@ define vosupport::enable_vo (
          'prod.vo.eu-eela.eu' => 'eela',
          'vo.delphi.cern.ch' => 'delphi', 
          'vo.aleph.cern.ch' => 'aleph',
-        default => $voname
+         default => regsubst($voname,'[\-\.]','_','G') #strip impossible puppet module name chars
       }
       include "voms::${voms_module_name}"      
     }
