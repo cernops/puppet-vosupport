@@ -30,7 +30,7 @@ class vosupport::vo_environment()
     ensure => present,
     owner => "root",
     group => "root",
-    mode => 0755,
+    mode => '0755',
     content => template("vosupport/grid-vo-env.csh.erb"),
   }
 

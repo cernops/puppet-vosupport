@@ -5,7 +5,7 @@ class vosupport::vo_sandboxdir {
       ensure => 'directory',
       owner => 'tomcat',
       group => 'tomcat',
-      mode => 0775
+      mode => '0775'
     }
   }
   #

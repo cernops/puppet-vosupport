@@ -12,7 +12,7 @@ define vosupport::setupsudoers (
     ensure => present,
     owner => "root",
     group => "root",
-    mode => 0640,
+    mode => '0640',
   }  
 }
 

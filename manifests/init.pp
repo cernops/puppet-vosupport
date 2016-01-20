@@ -18,21 +18,21 @@ class vosupport(
     source => 'puppet:///modules/vosupport/grid-env-funcs.sh',
     owner => "root",
     group => "root",
-    mode => 0644,
+    mode => '0644',
   }
   file {"clean-grid-env-funcs.sh":
     path => '/usr/libexec/clean-grid-env-funcs.sh',
     source => 'puppet:///modules/vosupport/clean-grid-env-funcs.sh',
     owner => "root",
     group => "root",
-    mode => 0644,
+    mode => '0644',
   }
   
   #create gridmapdir if necessary
   if $enable_gridmapdir_for_group != undef {
     file {'/etc/grid-security/gridmapdir':
       ensure => directory,
-      mode => 0770,
+      mode => '0770',
       owner => root,
       group => $enable_gridmapdir_for_group,
       require => File['/etc/grid-security']
