@@ -1,0 +1,18 @@
+{
+  "author": "schwicke",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib"
+    }
+  ],
+  "description": "This modules provides classes and definitions required to setup a list of supported VOs.",
+  "license": "Apache License, Version 2.0 (the \"License\")",
+  "name": "CERNOps-vosupport",
+  "operatingsystem_support": [],
+  "project_page": "http://www.eu-emi.eu/",
+  "requirements": [],
+  "source": "",
+  "summary": "VO default definitions and setup tools",
+  "tags": [],
+  "version": "0.0.1"
+}
