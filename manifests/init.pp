@@ -8,10 +8,8 @@ class vosupport(
   $enable_gridmapdir_for_group = hiera("vosupport_enable_gridmapdir_for_group",undef), #if specified, create and populate gridmapdir with pool accounts and sets the ownership of the gridmapdir to the specified group name
   $enable_sudoers = hiera("vosupport_enable_sudoers",false), # if specified, create and populate /etc/
   $enable_sandboxdir = hiera("vosupport_enable_sandboxdir",false), # if specified, create and populate /etc/
-)  
+)
 {
-
-  include concat::setup
 
   file {"grid-env-funcs.sh":
     path => '/usr/libexec/grid-env-funcs.sh',
@@ -27,7 +25,7 @@ class vosupport(
     group => "root",
     mode => '0644',
   }
-  
+
   #create gridmapdir if necessary
   if $enable_gridmapdir_for_group != undef {
     file {'/etc/grid-security/gridmapdir':
@@ -40,7 +38,7 @@ class vosupport(
   }
 
   #
-  # overall process: 
+  # overall process:
   #
 
   #get metadata from hiera
@@ -55,8 +53,8 @@ class vosupport(
   #enable the list of supported VOs from the class parameters (most likely coming from hiera)
   #for create_resources to be happy we need to convert the  $supported_vos array into a hash
   #i.e. yaml that looks like "{ vo1: {}, vo2: {}, etc. }"
-  $supported_vos_hash=parseyaml(inline_template("{ <%= @supported_vos.collect{ |voname| voname + ': {}' }.join(', ') %>} "))     
-  
+  $supported_vos_hash=parseyaml(inline_template("{ <%= @supported_vos.collect{ |voname| voname + ': {}' }.join(', ') %>} "))
+
   $supported_vos_params={
     enable_poolaccounts => $enable_poolaccounts,
     enable_mappings_for_service => $enable_mappings_for_service,
