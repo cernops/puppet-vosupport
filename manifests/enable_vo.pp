@@ -24,19 +24,19 @@ define vosupport::enable_vo (
          'prod.vo.eu-eela.eu' => 'eela',
          'vo.delphi.cern.ch' => 'delphi', 
          'vo.aleph.cern.ch' => 'aleph',
-        default => $voname
+         default => regsubst($voname,'[\-\.]','_','G') #strip impossible puppet module name chars
       }
       include "voms::${voms_module_name}"      
     }
     
     if ($enable_poolaccounts) {
       include vosupport::vo_poolaccounts      
-      Setuphome <| voname == $voname |>
+      Vosupport::Setuphome <| voname == $voname |>
     }
     
     if ($enable_environment) {
       include vosupport::vo_environment
-      Voenv  <| voname == $voname |>
+      Vosupport::Voenv  <| voname == $voname |>
     }
     
     if $enable_mappings_for_service != undef {
@@ -76,17 +76,17 @@ define vosupport::enable_vo (
     
     if $enable_gridmapdir {
       include vosupport::vo_gridmapdir
-      Setupgridmapdir <| voname == $voname |>
+      Vosupport::Setupgridmapdir <| voname == $voname |>
     }
     
     if $enable_sudoers {
       include vosupport::vo_sudoers
-      Setupsudoers <| voname == $voname |>
+      Vosupport::Setupsudoers <| voname == $voname |>
     }
     
     if $enable_sandboxdir {
       include vosupport::vo_sandboxdir
-      Setupsandbox  <| voname == $voname |>
+      Vosupport::Setupsandbox  <| voname == $voname |>
     }
 }
 

@@ -9,7 +9,7 @@ define vosupport::setupsandbox (
       ensure => 'directory',
       owner => 'tomcat',
       group => $group,
-      mode => 0770,
+      mode => '0770',
     }  
   }
 }
